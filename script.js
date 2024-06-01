@@ -1,31 +1,31 @@
-//your code here
+//write your code here
 document.addEventListener('DOMContentLoaded', () => {
-    const draggables = document.querySelectorAll('.draggable');
+    const draggables = document.querySelectorAll('.image');
+    let draggedElement = null;
 
     draggables.forEach(draggable => {
-        draggable.addEventListener('dragstart', dragStart);
-        draggable.addEventListener('dragover', dragOver);
-        draggable.addEventListener('drop', drop);
+        draggable.addEventListener('dragstart', () => {
+            draggedElement = draggable;
+            draggable.classList.add('selected');
+        });
+
+        draggable.addEventListener('dragend', () => {
+            draggedElement = null;
+            draggable.classList.remove('selected');
+        });
+
+        draggable.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        draggable.addEventListener('drop', () => {
+            if (draggedElement && draggedElement !== draggable) {
+                // Swap the background images
+                const draggedBackground = draggedElement.style.backgroundImage;
+                draggedElement.style.backgroundImage = draggable.style.backgroundImage;
+                draggable.style.backgroundImage = draggedBackground;
+            }
+        });
     });
-
-    function dragStart(e) {
-        e.dataTransfer.setData('text/plain', e.target.id);
-    }
-
-    function dragOver(e) {
-        e.preventDefault();
-    }
-
-    function drop(e) {
-        e.preventDefault();
-        const draggedId = e.dataTransfer.getData('text/plain');
-        const draggedElement = document.getElementById(draggedId);
-        const targetElement = e.target;
-
-        // Swap the background images
-        const draggedImage = draggedElement.style.backgroundImage;
-        draggedElement.style.backgroundImage = targetElement.style.backgroundImage;
-        targetElement.style.backgroundImage = draggedImage;
-    }
 });
 
