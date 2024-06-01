@@ -11,12 +11,35 @@
   <body>
     <h1 style="text-align: center">Arrange Images by drag and drop</h1>
     <div class="flex" id="parent">
-      <div draggable="true" class="image" >Image 1</div>
-      <div draggable="true" class="image" >Image 2</div>
-      <div draggable="true" class="image" >Image 3</div>
-      <div draggable="true" class="image" >Image 4</div>
-      <div draggable="true" class="image" >Image 5</div>
-      <div draggable="true" class="image" >Image 6</div>
+      <div draggable="true" class="image" id="div1" >Image 1</div>
+      <div draggable="true" class="image" id="div2" >Image 2</div>
+      <div draggable="true" class="image" id="div3">Image 3</div>
+      <div draggable="true" class="image" id="div4">Image 4</div>
+      <div draggable="true" class="image" id="div5" >Image 5</div>
+      <div draggable="true" class="image" id="div6" >Image 6</div>
     </div>
+	  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	  <script>
+  $(document).ready(function() {
+    $(".draggable").draggable({
+      revert: true,
+      revertDuration: 200,
+      zIndex: 100
+    });
+
+    $(".draggable").droppable({
+      drop: function(event, ui) {
+        var draggableId = ui.draggable.attr("id");
+        var droppableId = $(this).attr("id");
+        var draggableBg = ui.draggable.css("background-image");
+        var droppableBg = $(this).css("background-image");
+        
+        ui.draggable.css("background-image", droppableBg);
+        $(this).css("background-image", draggableBg);
+      }
+    });
+  });
+</script>
   </body>
 </html>
